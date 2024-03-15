@@ -1,6 +1,8 @@
 # Mode d’emploi pour module CAN basé sur MCP2515 (Raspberry avec terminal : Zero, 3, 4)
 https://domoticx.com/raspberry-pi-can-bus-communicatie-gpio/ 
- 
+
+![](https://github.com/LEBaz2211/mega_beetle_hardware_interfaces/blob/main/CAN_bus_code/raspberry_pi/MCP2515-raspberry-pi-pinout.jpg)
+
 Pour charger les drivers dans l’interface SPI :
 `$ sudo nano /boot/config.txt`
 et ajouter le code suivant à la fin du fichier:
@@ -14,7 +16,8 @@ La fréquence est écrite sur l’oscillateur du module (8.000 = 8MHz).
 
 ## Installer can-utils
 `$ sudo apt-get install can-utils`
-Ensuite, *reboot la Raspberry* !
+
+Ensuite, REBOOT la Raspberry !
 Si bien installé:
 `$ ls /sys/bus/spi/devices/spi0.0/net` affiche
 ```
@@ -26,7 +29,7 @@ can0
 
 Vérifier avec `$ifconfig`
 ## Lancement automatique de l’interface au démarrage de la RP
-`$ sudo nano /etc/network/interfaces`, ajouter à la fin:
+Dans `$ sudo nano /etc/network/interfaces`, ajouter à la fin:
 ```
 auto can0
 iface can0 inet manual
@@ -38,9 +41,9 @@ iface can0 inet manual
 # Utilisation
 -	`candump any` – écouter n’importe quel appareil canbus connecté
 -	`candump can0` – seulement écouter l’appareil can0
--	`cansend` – Send a single frame.
--	`cansend can0 020#01` – Send 1 byte (1st) to device ID 0x20 (32)
 -	`candump` – Dump can packets – display, filter and log to disk.
+-	`cansend` – Send a single frame.
+-	`cansend can0 020#01` = Send 1 byte (1st) to device ID 0x20 (32)
 -	`canplayer` – Replay CAN log files.
 -	`cangen` – Generate random traffic.
 -	`canbusload` – display the current CAN bus utilisation.
