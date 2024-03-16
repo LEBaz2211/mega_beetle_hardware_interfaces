@@ -2,19 +2,19 @@
 #include <Adafruit_MotorShield.h>
 #include <PinChangeInterrupt.h>
 
-#define ENCA 9 // YELLOWM1 FR
-#define ENCB 10 // YELLOWM2 RR
-#define ENCC 7 // YELLOWM3 FL
-#define ENCD 8  // YELLOWM4 RL
+#define ENCA 8 // RR
+#define ENCB 11 // RL
+#define ENCC 10 // FL
+#define ENCD 9  // FR
 
 int currentCommand = 0;
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
-Adafruit_DCMotor *FR = AFMS.getMotor(1);
-Adafruit_DCMotor *RR = AFMS.getMotor(2);
-Adafruit_DCMotor *FL = AFMS.getMotor(3);
-Adafruit_DCMotor *RL = AFMS.getMotor(4);
+Adafruit_DCMotor *FR = AFMS.getMotor(2); //2
+Adafruit_DCMotor *RR = AFMS.getMotor(1); //1
+Adafruit_DCMotor *FL = AFMS.getMotor(4); //4
+Adafruit_DCMotor *RL = AFMS.getMotor(3); //3
 
 volatile int posiM1 = 0; 
 volatile int posiM2 = 0; 
@@ -29,9 +29,9 @@ unsigned long currentTime = 0;
 unsigned long prevTimePID = 0;
 unsigned long currentTimePID = 0;
 
-float kp = 0.9;
-float kd = 0.002;//0.025;
-float ki = 0.01;//0.008
+float kp = 1.9; //0.9
+float kd = 0.002;//0.002
+float ki = 0.02;//0.0
 
 float eM1 = 0;
 float eM2 = 0;
@@ -47,10 +47,10 @@ float eIntegralM3 = 0;
 float eIntegralM4 = 0;
 
 
-float m1Speed = 30; //a modifier pour imposer la vitesse
-float m2Speed = 30;
-float m3Speed = 30;
-float m4Speed = 30;
+float m1Speed = 20; //a modifier pour imposer la vitesse
+float m2Speed = 20;
+float m3Speed = 20;
+float m4Speed = 20;
 
 uint8_t pwmM1 = 0;
 uint8_t pwmM2 = 0;
@@ -90,9 +90,9 @@ void setup() {
   pinMode(ENCC, INPUT_PULLUP);
   pinMode(ENCD, INPUT_PULLUP);
   attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCA), readEncoderM1, RISING);
-  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCB), readEncoderM2, RISING);
-  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCC), readEncoderM3, RISING);
-  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCD), readEncoderM4, RISING);
+  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCD), readEncoderM2, RISING);
+  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCB), readEncoderM3, RISING);
+  attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(ENCC), readEncoderM4, RISING);
   
  
 
@@ -195,13 +195,13 @@ void computeSpeed() {
   rpmM2 = (posM2 / 800.0) * (60000.0 / timeDiff);
   rpmM3 = (posM3 / 800.0) * (60000.0 / timeDiff);
   rpmM4 = (posM4 / 800.0) * (60000.0 / timeDiff);
-  Serial.println("speedFR:");
+  Serial.print("speedFR:");
   Serial.println(rpmM1);
-  Serial.println("speedRR:");
+  Serial.print("speedRR:");
   Serial.println(rpmM2);
-  Serial.println("speedFL:");
+  Serial.print("speedFL:");
   Serial.println(rpmM3);
-  Serial.println("speedRL:");
+  Serial.print("speedRL:");
   Serial.println(rpmM4);
 
   prevTime = currentTime;
