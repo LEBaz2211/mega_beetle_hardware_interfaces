@@ -38,7 +38,7 @@ unsigned long currentTime = 0;
 unsigned long prevTimePID = 0;
 unsigned long currentTimePID = 0;
 
-float kp = 1.9; //0.9
+float kp = 1.4; //0.9
 float kd = 0.002;//0.002
 float ki = 0.02;//0.0
 
@@ -208,19 +208,29 @@ void readEncoderM4() {
 
 void calculateWheelSpeeds() {
   // Placeholder values for robot geometry - adjust these to your robot's specifications
-  float r = 3.0; // Distance from center to wheel in cm (example value)
-  float c = 18.85; // Wheel circumference in cm (example value, corresponds to a 10cm diameter wheel)
-
+  float c = 18.85;
+  float Length = 23.0;
+  float Width = 23.0;
   // Convert angular velocity from rad/s to cm/s using the radius
   // This assumes the robot rotates around its center point
-  float angularVelocityCmS = angularZ * r;
+  float angularVelocityCmS = angularZ * ((Length + Width) / 2.0);
 
   // Calculate wheel speeds in cm/s considering X, Y movements and rotation
   // These formulas depend on your mecanum wheel configuration
-  float wheelSpeedCmS_FL = linearX + linearY + angularVelocityCmS;
-  float wheelSpeedCmS_FR = linearX - linearY - angularVelocityCmS;
-  float wheelSpeedCmS_RL = linearX - linearY + angularVelocityCmS;
-  float wheelSpeedCmS_RR = linearX + linearY - angularVelocityCmS;
+  float wheelSpeedCmS_FL = linearX - linearY + angularVelocityCmS;
+  float wheelSpeedCmS_FR = linearX + linearY + angularVelocityCmS;
+  float wheelSpeedCmS_RL = linearX + linearY - angularVelocityCmS;
+  float wheelSpeedCmS_RR = linearX - linearY - angularVelocityCmS;
+
+  // float wheelSpeedCmS_FL = linearX - linearY;
+  // float wheelSpeedCmS_FR = linearX + linearY;
+  // float wheelSpeedCmS_RL = linearX + linearY;
+  // float wheelSpeedCmS_RR = linearX - linearY;
+
+  Serial.println(wheelSpeedCmS_FL);
+  Serial.println(wheelSpeedCmS_FR);
+  Serial.println(wheelSpeedCmS_RL);
+  Serial.println(wheelSpeedCmS_RR);
 
   // Convert cm/s to RPM for each wheel
   // RPM = (wheelSpeedCmS * 60) / circumference
@@ -229,10 +239,10 @@ void calculateWheelSpeeds() {
   m3Speed = (wheelSpeedCmS_FL * 60) / c;
   m4Speed = (wheelSpeedCmS_RL * 60) / c;
 
-  Serial.println(m1Speed);
-  Serial.println(m2Speed);
-  Serial.println(m3Speed);
-  Serial.println(m4Speed);
+  // Serial.println(m1Speed);
+  // Serial.println(m2Speed);
+  // Serial.println(m3Speed);
+  // Serial.println(m4Speed);
 }
 
 
@@ -322,7 +332,7 @@ void computePower(){
     pwmM4 = 255;
   }
 
-  Serial.println(pwmM1);
+  // Serial.println(pwmM1);
 
   
 
