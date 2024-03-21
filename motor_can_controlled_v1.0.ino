@@ -173,6 +173,10 @@ void loop() {
       m2Speed = 0;
       m3Speed = 0;
       m4Speed = 0;
+
+      linearX = 0.0;
+      linearY = 0.0;
+      angularZ = 0.0;
   }
 
   applyMotorSpeeds();
