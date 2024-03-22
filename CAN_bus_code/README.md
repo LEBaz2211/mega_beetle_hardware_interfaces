@@ -57,6 +57,9 @@ cmake ../ -G "Unix Makefiles"
 This will create files in the build folder. 
 <br>
 Still in the same terminal use the *make* command to create the file to upload to the pico.
+```
+make
+```
 <br>
 This will create multiple additional files. The one you need is the file with *.uf2* extension.
 <br>
