@@ -45,9 +45,32 @@ pico_enable_stdio_uart(pico-mcp2515 0)
 
 pico_add_extra_outputs(pico-mcp2515)
 ```
+### UPLOAD FILE TO THE PICO CARD
+In your project folder create a folder called **build**
 
+In a terminal use the cd command to go into that folder
 
+Use the command
+```
+cmake ../ -G "Unix Makefiles"
+```
+This will create files in the build folder. 
+<br>
+Still in the same terminal use the *make* command to create the file to upload to the pico.
+<br>
+This will create multiple additional files. The one you need is the file with *.uf2* extension.
+<br>
+Plug the pico in boot mode and upload the file.
 
+### PIN CONFIGURATIONS
+| MCP    |PICO PIN |
+| -------- | ------- |
+|SCK_PIN|18|
+|SI_PIN|19|
+|SO_PIN|16|
+|CSN_PIN|17|
+
+### PRODUCE
 In the C++ file include the libraries
 ```
 #include <stdio.h>
@@ -70,15 +93,6 @@ can0.setBitrate(CAN_1000KBPS, MCP_16MHZ);
 can0.setNormalMode();
 ```
 Be sure to change the BitRate parameters accordingly.
-### PIN CONFIGURATIONS
-| MCP    |PICO PIN |
-| -------- | ------- |
-|SCK_PIN|18|
-|SI_PIN|19|
-|SO_PIN|16|
-|CSN_PIN|17|
-
-### PRODUCE
 
 We create a function that creates a can frame.
 
